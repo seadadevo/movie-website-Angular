@@ -1,12 +1,8 @@
 <div class="w-75 mx-auto py-4">
-  @if(error){
-    <div class="alert alert-danger">{{error}}</div>
+  @if (error) {
+    <div class="alert alert-danger">{{ error }}</div>
   }
-  <form
-    (ngSubmit)="submitLoginForm(loginForm)"
-    [formGroup]="loginForm"
-  >
-
+  <form (ngSubmit)="submitLoginForm(loginForm)" [formGroup]="loginForm">
     <label for="email">email</label>
     <input
       formControlName="email"
@@ -15,57 +11,83 @@
       name=""
     />
 
-     @if(loginForm.get('email')?.errors &&
-    loginForm.get('email')?.touched) {
-    <div class="alert alert-danger">
-      @switch (true) { @case
-      (loginForm.get('email')?.hasError('required')) {
-      <p class="m-0">email is required</p>
-      } @case (loginForm.get('email')?.hasError('email')) {
-      <p class="m-0">pattern is not true</p>
-      } @default {
-      <p class="m-0">Invalid input</p>
-      } }
-    </div>
+    @if (loginForm.get("email")?.errors && loginForm.get("email")?.touched) {
+      <div class="alert alert-danger">
+        @switch (true) {
+          @case (loginForm.get("email")?.hasError("required")) {
+            <p class="m-0">email is required</p>
+          }
+          @case (loginForm.get("email")?.hasError("email")) {
+            <p class="m-0">pattern is not true</p>
+          }
+          @default {
+            <p class="m-0">Invalid input</p>
+          }
+        }
+      </div>
     }
 
-   <label for="password">password</label>
-<div class="position-relative">
-  <input
-    formControlName="password"
-    [type]="showPassword ? 'text' : 'password'"
-    class="form-control mb-2 input-mine pe-5"
-    id="password"
-  />
-  <i
-    class="fa"
-    [class.fa-eye]="!showPassword"
-    [class.fa-eye-slash]="showPassword"
-    (click)="togglePasswordVisibility()"
-    style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"
-  ></i>
-</div>
-
-    @if(loginForm.get('password')?.errors &&
-    loginForm.get('password')?.touched) {
-    <div class="alert alert-danger">
-      @switch (true) { @case
-      (loginForm.get('password')?.hasError('required')) {
-      <p class="m-0">password is required</p>
-      } @case (loginForm.get('password')?.hasError('pattern')) {
-      <p class="m-0">pattern is false</p>
-      } @default {
-      <p class="m-0">Invalid input</p>
-      } }
+    <label for="password">password</label>
+    <div class="position-relative">
+      <input
+        formControlName="password"
+        [type]="showPassword ? 'text' : 'password'"
+        class="form-control mb-2 input-mine pe-5"
+        id="password"
+      />
+      <i
+        class="fa"
+        [class.fa-eye]="!showPassword"
+        [class.fa-eye-slash]="showPassword"
+        (click)="togglePasswordVisibility()"
+        style="
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          cursor: pointer;
+        "
+      ></i>
     </div>
-    }
 
+    @if (
+      loginForm.get("password")?.errors && loginForm.get("password")?.touched
+    ) {
+      <div class="alert alert-danger">
+        @switch (true) {
+          @case (loginForm.get("password")?.hasError("required")) {
+            <p class="m-0">password is required</p>
+          }
+          @case (loginForm.get("password")?.hasError("pattern")) {
+            <p class="m-0">pattern is false</p>
+          }
+          @default {
+            <p class="m-0">Invalid input</p>
+          }
+        }
+      </div>
+    }
 
     <button [disabled]="loginForm.invalid" type="submit" class="btn btn-info">
       <span>Login</span>
-      @if(isLoading) {
+      @if (isLoading) {
         <i class="fas fa-spinner fa-spin"></i>
       }
     </button>
   </form>
+
+  <!-- Demo Login -->
+  <div class="mt-4 text-center">
+    <p class="text-muted mb-2" style="font-size: 0.85rem">
+      — Or try without an account —
+    </p>
+    <button
+      type="button"
+      class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2"
+      (click)="loginAsDemo()"
+    >
+      <i class="fas fa-user-circle"></i>
+      Login as Demo User
+    </button>
+  </div>
 </div>

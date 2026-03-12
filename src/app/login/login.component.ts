@@ -57,6 +57,24 @@ export class LoginComponent implements OnInit {
     }
 
 
+    loginAsDemo() {
+      // Build a fake but structurally valid JWT so jwtDecode() works
+      const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+      const payload = btoa(JSON.stringify({
+        id: 'demo-user-001',
+        name: 'Demo User',
+        email: 'demo@example.com',
+        role: 'user',
+        iat: Math.floor(Date.now() / 1000),
+        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // 24h
+      }));
+      const fakeToken = `${header}.${payload}.demo-signature`;
+
+      localStorage.setItem('userToken', fakeToken);
+      this._AuthService.saveUserData();
+      this._Router.navigate(['/home']);
+    }
+
     ngOnInit() {
        this._AuthService.userData.subscribe({
       next:() => {
